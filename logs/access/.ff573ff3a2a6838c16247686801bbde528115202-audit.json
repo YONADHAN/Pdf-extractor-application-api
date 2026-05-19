@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/media/yonadhan/storage/02_Workspace/01_Projects/02_Minor_Projects/Boarding_two_project/PdfUploader/api/logs/access/.ff573ff3a2a6838c16247686801bbde528115202-audit.json",
+    "files": [
+        {
+            "date": 1778570061048,
+            "name": "/media/yonadhan/storage/02_Workspace/01_Projects/02_Minor_Projects/Boarding_two_project/PdfUploader/api/logs/access/2026-05-12.log",
+            "hash": "8f03e17f30ccf349242b286e495955ca2dd02b01b96fd22d95d3c0a22a920322"
+        },
+        {
+            "date": 1779175239978,
+            "name": "/media/yonadhan/storage/02_Workspace/01_Projects/02_Minor_Projects/Boarding_two_project/PdfUploader/api/logs/access/2026-05-19.log",
+            "hash": "2bc03d235fb4be9f2f0637e6134fcc42a6f205d58ff77e10b26a1c29c0650e5b"
+        }
+    ],
+    "hashType": "sha256"
+}
