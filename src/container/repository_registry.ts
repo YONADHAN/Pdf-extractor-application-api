@@ -10,7 +10,11 @@ import { PdfRepository } from '../infrastructure/repositories/pdf.repository.js'
 import type { ICounterRepository } from '../domain/repositories/counter_repository.interface.js';
 import { CounterRepository } from '../infrastructure/repositories/counter_repository.js';
 
+import type { IVerifiedEmailRepository } from '../domain/repositories/verified_email_repository.interface.js';
+import { VerifiedEmailRepository } from '../infrastructure/repositories/verified_email_repository.js';
+
 import { container } from 'tsyringe';
+
 
 export class RepositoryRegistry {
   static registerRepositories(): void {
@@ -26,5 +30,8 @@ export class RepositoryRegistry {
     container.register<ICounterRepository>('ICounterRepository', {
       useClass: CounterRepository,
     });
+    container.register<IVerifiedEmailRepository>('IVerifiedEmailRepository',{
+      useClass: VerifiedEmailRepository,
+    })
   }
 }

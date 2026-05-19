@@ -3,11 +3,11 @@ import type { IVerifiedEmailEntity } from "../../domain/models/verified_email_en
 import { VerifiedEmailModel, type IVerifiedEmailModel } from "../database/mongo/models/verified_email_model.js";
 import { BaseRepository } from "./base_repository.js";
 import type { HydratedDocument } from "mongoose";
-import type { IVerifiedRepository } from "../../domain/repositories/verified_email_repository.interface.js";
+import type { IVerifiedEmailRepository } from "../../domain/repositories/verified_email_repository.interface.js";
 
 
 @injectable()
-export class VerifiedEmailRepository extends BaseRepository<IVerifiedEmailModel, IVerifiedEmailEntity> implements IVerifiedRepository {
+export class VerifiedEmailRepository extends BaseRepository<IVerifiedEmailModel, IVerifiedEmailEntity> implements IVerifiedEmailRepository {
     constructor(){
         super(VerifiedEmailModel)
     }

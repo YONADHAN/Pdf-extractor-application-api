@@ -21,7 +21,7 @@ export class AuthRoute extends BaseRoute {
     );
 
     this.router.post(
-      '/generate-otp',
+      '/send-otp',
       asyncHandler(authController.sendOtpEmail.bind(authController)),
     );
 

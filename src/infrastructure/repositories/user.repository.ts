@@ -16,6 +16,7 @@ export class UserRepository
   }
   protected toEntity(model: HydratedDocument<IUserModel>): IUserEntity {
     return {
+      _id: model._id.toString(),
       userUUID: model.userUUID,
       name: model.name,
       email: model.email,

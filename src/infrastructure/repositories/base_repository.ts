@@ -59,4 +59,5 @@ export abstract class BaseRepository<
     const result = await this.model.deleteOne(filter).exec();
     return result.deletedCount === 1;
   }
+
 }

@@ -5,6 +5,7 @@ import { CloudinaryFileStorageService } from '../infrastructure/services/cloudin
 import type { ICloudinaryFileStorageService } from '../domain/services/cloudinary_file_storage_service.interface.js';
 export class ServiceRegistry {
   static registerServices(): void {
+    
     container.register<IEmailService>('IEmailService', {
       useClass: EmailService,
     });

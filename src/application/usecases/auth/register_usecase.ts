@@ -12,6 +12,7 @@ import { hashPassword } from '../../../shared/utils/password_utils.js';
 import type { Role } from '../../../shared/types/constants/enum.js';
 import type { ICounterRepository } from '../../../domain/repositories/counter_repository.interface.js';
 import type { RegisterUseCaseRequestDTO } from '../../dtos/auth/register_usecase_dto.js';
+import type { IVerifiedEmailRepository } from '../../../domain/repositories/verified_email_repository.interface.js';
 
 @injectable()
 export class RegisterUserUseCase implements IRegisterUserUseCase {
@@ -20,7 +21,9 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
     private _userRepository: IUserRepository,
     @inject('ICounterRepository')
     private _counterRepository: ICounterRepository,
-  ) {}
+    @inject('IVerifiedEmailRepository')
+    private _verifiedEmailRepository: IVerifiedEmailRepository,
+  ) { }
 
   async execute({
     name,
@@ -34,11 +37,22 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
         HTTP_STATUS.CONFLICT,
       );
     }
-    const isExistingUser = await this._userRepository.findOne({ email });
+    const isExistingUser = await this._userRepository.findOne({ email :email.toLowerCase()});
     if (isExistingUser) {
       throw new CustomError(
         ERROR_MESSAGES.USER_ALREADY_EXISTS,
         HTTP_STATUS.METHOD_NOT_ALLOWED,
+      );
+    }
+    const verifiedEmail =
+      await this._verifiedEmailRepository.findOne({
+        email: email.toLowerCase(),
+      });
+
+    if (!verifiedEmail) {
+      throw new CustomError(
+        ERROR_MESSAGES.EMAIL_NOT_VERIFIED,
+        HTTP_STATUS.UNAUTHORIZED,
       );
     }
     const passwordHash = await hashPassword(password);
@@ -48,7 +62,7 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
     const dataToSave = {
       userUUID,
       name,
-      email,
+      email: email.toLowerCase(),
       passwordHash,
       role: 'user' as Role,
     };

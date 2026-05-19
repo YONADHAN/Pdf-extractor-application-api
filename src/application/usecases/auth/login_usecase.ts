@@ -21,27 +21,27 @@ export class LoginUserUseCase implements ILoginUserUseCase {
   constructor(
     @inject('IUserRepository')
     private _userRepository: IUserRepository,
-  ) {}
+  ) { }
 
   async execute({
     email,
     password,
   }: LoginUseCaseRequestDTO): Promise<LoginUseCaseResponseDTO> {
-    const user = await this._userRepository.findOne(email);
+    const user = await this._userRepository.findOne({ email: email.toLowerCase() });
     if (!user) {
       throw new CustomError(
         ERROR_MESSAGES.USER_NOT_FOUND,
         HTTP_STATUS.NOT_FOUND,
       );
     }
-    const hashedPasswordToCheck = await hashPassword(password);
-    const isPasswordValid = await comparePassword(
-      hashedPasswordToCheck,
-      user.passwordHash,
-    );
+    const isPasswordValid =
+      await comparePassword(
+        password,
+        user.passwordHash,
+      );
     if (!isPasswordValid) {
       throw new CustomError(
-        ERROR_MESSAGES.PASSWORD_NOT_MATCH,
+        ERROR_MESSAGES.PASSWORD_IS_WRONG,
         HTTP_STATUS.BAD_REQUEST,
       );
     }

@@ -29,7 +29,7 @@ export class SendOtpEmailUseCase implements ISendOtpEmailUseCase {
 
     const otpCooldown = 2 * 60 * 1000;
 
-    const latestOtp = await this._otpRepository.findLatestOtp(email);
+    const latestOtp = await this._otpRepository.findLatestOtp(email.toLowerCase());
 
     if (latestOtp) {
       const now = Date.now();
@@ -47,7 +47,7 @@ export class SendOtpEmailUseCase implements ISendOtpEmailUseCase {
     const otp = await this._emailService.generateOtp();
 
     await this._otpRepository.create({
-      email,
+      email: email.toLowerCase(),
       otp,
       expiresAt: new Date(Date.now() + otpCooldown),
     });

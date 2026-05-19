@@ -3,6 +3,6 @@ import type { IVerifiedEmailEntity } from "../models/verified_email_entity.js";
 import type { IBaseRepository } from "./base_repository.interface.js";
 
 
-export interface IVerifiedRepository extends IBaseRepository<IVerifiedEmailModel, IVerifiedEmailEntity> {
+export interface IVerifiedEmailRepository extends IBaseRepository<IVerifiedEmailModel, IVerifiedEmailEntity> {
     
 }

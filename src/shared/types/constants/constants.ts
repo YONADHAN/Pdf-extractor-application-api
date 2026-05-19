@@ -36,6 +36,7 @@ export const SUCCESS_MESSAGES = {
 export const ERROR_MESSAGES = {
   INVALID_OTP: 'Invalid OTP',
   EMAIL_REQUIRED: 'Email is required',
+  EMAIL_NOT_VERIFIED: "Email not verified",
   EMAIL_AND_OTP_REQUIRED: 'Email and OTP are required',
   OTP_EXPIRED: 'OTP expired.',
   OTP_ALREADY_SENT: 'OTP already send',
@@ -43,6 +44,7 @@ export const ERROR_MESSAGES = {
   OTP_ABSENT: 'otp not present',
   OTP_NOT_MATCH: 'otp not match',
   PASSWORD_NOT_MATCH: 'confirm password and password are not matching.',
+  PASSWORD_IS_WRONG: "Password is wrong",
   USER_ALREADY_EXISTS: 'User already exists.',
   USER_NOT_FOUND: 'User not found',
   ACCESS_TOKEN_NOT_FOUND: 'Access token is not found.',

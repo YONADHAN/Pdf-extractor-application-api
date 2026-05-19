@@ -40,7 +40,7 @@ export class AuthController implements IAuthController {
       throw new CustomError('Email is required', 400);
     }
 
-    await this._sendOtpEmailUseCase.execute(email);
+    await this._sendOtpEmailUseCase.execute({email});
     res.status(200).json({ message: 'OTP sent successfully' });
   }
 
@@ -52,7 +52,7 @@ export class AuthController implements IAuthController {
     const response = await this._verifyOtpUseCase.execute({ email, otp });
 
     if (response.verified) {
-      res.status(200).json({ message: 'OTP verified successfully' });
+      res.status(200).json({ success: true, message: 'OTP verified successfully' });
     } else {
       throw new CustomError('Invalid OTP', 400);
     }
@@ -99,10 +99,16 @@ export class AuthController implements IAuthController {
     SaveAccessTokenInCookie(res, accessToken);
     SaveRefreshTokenInCookie(res, refreshToken);
 
+    const dataToSend = {
+      name: user.name,
+      userUUID: user.userUUID,
+      email: user.email,
+    }
+
     res.status(200).json({
       success: true,
       message: 'User logged in successfully',
-      data: user,
+      data: dataToSend,
     });
   }
 
