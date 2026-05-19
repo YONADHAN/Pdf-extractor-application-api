@@ -5,4 +5,4 @@ export interface RegisterUseCaseRequestDTO {
   confirmPassword: string;
 }
 
-//export interface RegisterUseCaseResponseDTO {}
+

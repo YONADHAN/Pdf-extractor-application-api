@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { BaseRepository } from './base_repository.js';
-import type { IUserModel } from '../database/mongo/models/user_model.js';
+import { UserModel, type IUserModel } from '../database/mongo/models/user_model.js';
 import type { IUserEntity } from '../../domain/models/user_entity.js';
 import type { HydratedDocument } from 'mongoose';
 import type { IUserRepository } from '../../domain/repositories/user_repository.interface.js';
@@ -10,6 +10,10 @@ export class UserRepository
   extends BaseRepository<IUserModel, IUserEntity>
   implements IUserRepository
 {
+
+  constructor(){
+    super(UserModel)
+  }
   protected toEntity(model: HydratedDocument<IUserModel>): IUserEntity {
     return {
       userUUID: model.userUUID,

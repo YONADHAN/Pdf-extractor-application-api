@@ -51,6 +51,6 @@ export const ERROR_MESSAGES = {
 } as const;
 
 export const CounterRepositoryKey = {
-  USER: 'USER-',
-  PDF: 'PDF-',
+  USER: 'USER',
+  PDF: 'PDF',
 };

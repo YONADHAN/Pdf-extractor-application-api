@@ -41,7 +41,7 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
         HTTP_STATUS.METHOD_NOT_ALLOWED,
       );
     }
-    const hashedPassword = await hashPassword(password);
+    const passwordHash = await hashPassword(password);
     const userUUID = await this._counterRepository.createNextUniqueId(
       CounterRepositoryKey.USER,
     );
@@ -49,7 +49,7 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
       userUUID,
       name,
       email,
-      hashedPassword,
+      passwordHash,
       role: 'user' as Role,
     };
 
