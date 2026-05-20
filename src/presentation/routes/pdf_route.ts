@@ -12,6 +12,11 @@ export class PdfRoute extends BaseRoute {
   }
 
   protected initRoutes(): void {
+    this.router.get(
+      '/me',
+      this.authMiddleware.authenticate.bind(this.authMiddleware),
+      asyncHandler(pdfController.me.bind(pdfController))
+    )
     this.router.post(
       '/upload',
       this.authMiddleware.authenticate.bind(this.authMiddleware),

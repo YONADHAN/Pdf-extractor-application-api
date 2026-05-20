@@ -14,15 +14,17 @@ export function generateJwtToken<T extends object>(
 
   return jwt.sign(payload, secret, options);
 }
-
 export function verifyJwtToken(
   token: string,
   secret: string,
-): JwtPayload | string {
+): JwtPayload | null {
   try {
-    return jwt.verify(token, secret);
+    return jwt.verify(
+      token,
+      secret,
+    ) as JwtPayload;
   } catch {
-    throw new Error('Invalid token');
+    return null;
   }
 }
 

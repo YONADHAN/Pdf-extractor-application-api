@@ -6,6 +6,8 @@ import helmet from 'helmet';
 
 import rateLimit from 'express-rate-limit';
 
+import cookieParser from 'cookie-parser';
+
 import { globalErrorHandler } from './presentation/middlewares/global-error_handler.js';
 
 import { loggerMiddleware } from './presentation/middlewares/logger_middleware.js';
@@ -59,6 +61,8 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use(loggerMiddleware);
+
+app.use(cookieParser());
 
 app.use('/api/auth', authRoute.getRouter());
 

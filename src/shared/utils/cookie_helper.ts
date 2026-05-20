@@ -5,7 +5,7 @@ const SaveAccessTokenInCookie = (res: Response, token: string): void => {
   res.cookie('access_token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };
@@ -14,7 +14,7 @@ const ClearAccessTokenCookie = (res: Response): void => {
   res.clearCookie('access_token', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
   });
 };
 
@@ -27,7 +27,7 @@ const SaveRefreshTokenInCookie = (res: Response, token: string): void => {
   res.cookie('refresh_token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 };
@@ -36,7 +36,7 @@ const ClearRefreshTokenCookie = (res: Response): void => {
   res.clearCookie('refresh_token', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
   });
 };
 

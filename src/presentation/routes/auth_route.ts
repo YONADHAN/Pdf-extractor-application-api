@@ -36,7 +36,7 @@ export class AuthRoute extends BaseRoute {
     );
 
     this.router.post(
-      '/refresh-token',
+      '/refresh',
       asyncHandler(authController.refreshToken.bind(authController)),
     );
   }

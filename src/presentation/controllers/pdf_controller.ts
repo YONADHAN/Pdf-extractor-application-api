@@ -24,7 +24,14 @@ export class PdfController implements IPdfController {
     private _deletePdfUseCase: IDeletePdfUseCase,
     @inject('IViewSinglePdfUseCase')
     private _viewSinglePdfUseCase: IViewSinglePdfUseCase,
-  ) {}
+  ) { }
+
+  async me(req: Request, res: Response): Promise<void> {
+    res.status(200).json({
+      "success": true,
+      "user": req.user
+    })
+  }
 
   async uploadNewPdf(req: Request, res: Response): Promise<void> {
     if (!req.file) {

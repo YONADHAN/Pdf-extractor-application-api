@@ -32,7 +32,7 @@ export class AuthController implements IAuthController {
     private _registerUserUseCase: IRegisterUserUseCase,
     @inject('ILoginUserUseCase')
     private _loginUserUseCase: ILoginUserUseCase,
-  ) {}
+  ) { }
 
   async sendOtpEmail(req: Request, res: Response): Promise<void> {
     const { email } = req.body;
@@ -40,7 +40,7 @@ export class AuthController implements IAuthController {
       throw new CustomError('Email is required', 400);
     }
 
-    await this._sendOtpEmailUseCase.execute({email});
+    await this._sendOtpEmailUseCase.execute({ email });
     res.status(200).json({ message: 'OTP sent successfully' });
   }
 
@@ -83,7 +83,7 @@ export class AuthController implements IAuthController {
         role: 'user',
       },
       config.jwt.accessTokenSecret!,
-      config.jwt.accessTokenExpiresIn, //'15m'
+      config.jwt.accessTokenExpiresIn, 
     );
     const refreshToken = generateJwtToken(
       {
@@ -116,6 +116,8 @@ export class AuthController implements IAuthController {
     const refreshToken = req.cookies['refresh_token'];
 
     if (!refreshToken) {
+      ClearAccessTokenCookie(res);
+      ClearRefreshTokenCookie(res);
       throw new CustomError('Refresh token missing', 401);
     }
 
@@ -124,8 +126,11 @@ export class AuthController implements IAuthController {
       config.jwt.refreshTokenSecret!,
     );
 
-    if (typeof decoded === 'string') {
-      throw new CustomError('Invalid refresh token', 401);
+
+    if (decoded === null) {
+      ClearAccessTokenCookie(res);
+      ClearRefreshTokenCookie(res);
+      throw new CustomError('Invalid refresh token', 401)
     }
 
     const newAccessToken = generateJwtToken(
@@ -148,8 +153,8 @@ export class AuthController implements IAuthController {
         name: decoded.name,
         role: decoded.role,
       },
-      config.jwt.accessTokenSecret!,
-      config.jwt.accessTokenExpiresIn,
+      config.jwt.refreshTokenSecret!,
+      config.jwt.refreshTokenExpiresIn,
     );
 
     SaveAccessTokenInCookie(res, newAccessToken);
