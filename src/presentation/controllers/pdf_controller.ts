@@ -125,7 +125,7 @@ export class PdfController implements IPdfController {
   }
 
   async deletePdf(req: Request, res: Response): Promise<void> {
-    const { stored_file_name } = req.params;
+    const  stored_file_name  = req.params.id;
 
     if (!stored_file_name || typeof stored_file_name !== 'string') {
       throw new CustomError(
@@ -148,7 +148,7 @@ export class PdfController implements IPdfController {
   }
 
   async viewSinglePdf(req: Request, res: Response): Promise<void> {
-    const { stored_file_name } = req.params;
+    const  stored_file_name  = req.params.id;
 
     if (!stored_file_name || typeof stored_file_name !== 'string') {
       throw new CustomError(
@@ -158,7 +158,7 @@ export class PdfController implements IPdfController {
     }
 
     const pdf = await this._viewSinglePdfUseCase.execute({
-      userId: req.user!._id,
+      userId: req.user!.userId,
 
       stored_file_name,
     });
