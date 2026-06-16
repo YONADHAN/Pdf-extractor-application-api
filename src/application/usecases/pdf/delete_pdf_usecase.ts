@@ -4,7 +4,7 @@ import type { IPdfRepository } from '../../../domain/repositories/pdf_repository
 
 import type { ICloudinaryFileStorageService } from '../../../domain/services/cloudinary_file_storage_service.interface.js';
 
-import { HTTP_STATUS } from '../../../shared/types/constants/constants.js';
+import { ERROR_MESSAGES, HTTP_STATUS_CODE } from '../../../shared/types/constants/constants.js';
 
 import { CustomError } from '../../../shared/error/customErrorHandler.js';
 import type { IDeletePdfUseCase } from '../../../domain/usecases/pdf/delete_pdf_usecase_interface.js';
@@ -31,7 +31,7 @@ export class DeletePdfUseCase implements IDeletePdfUseCase {
     });
 
     if (!existingPdf) {
-      throw new CustomError('PDF not found', HTTP_STATUS.NOT_FOUND);
+      throw new CustomError(ERROR_MESSAGES.PDF_NOT_FOUND, HTTP_STATUS_CODE.NOT_FOUND);
     }
 
     //delete from cloudinary
@@ -40,11 +40,11 @@ export class DeletePdfUseCase implements IDeletePdfUseCase {
 
     if (!existingPdf._id) {
       throw new CustomError(
-        'PDF id missing',
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        ERROR_MESSAGES.PDF_ID_MISSING,
+        HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR,
       );
     }
 
-    await this._pdfRepository.delete(existingPdf._id);
+    await this._pdfRepository.delete({ _id: existingPdf._id });
   }
 }

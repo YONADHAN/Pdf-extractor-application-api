@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import type { Request, Response } from 'express';
 import type { IAuthController } from '../../domain/controller/auth_controller_interface.js';
 import { CustomError } from '../../shared/error/customErrorHandler.js';
+import { ERROR_MESSAGES, HTTP_STATUS_CODE, SUCCESS_MESSAGES } from '../../shared/types/constants/constants.js';
 import { registrationValidationSchema } from '../validations/auth/registeration_validation_schema.js';
 import type { ISendOtpEmailUseCase } from '../../domain/usecases/auth/send_email_usecase_interface.js';
 import type { IVerifyOtpUseCase } from '../../domain/usecases/auth/verify_otp_interface.js';
@@ -37,24 +38,24 @@ export class AuthController implements IAuthController {
   async sendOtpEmail(req: Request, res: Response): Promise<void> {
     const { email } = req.body;
     if (!email.trim()) {
-      throw new CustomError('Email is required', 400);
+      throw new CustomError(ERROR_MESSAGES.EMAIL_REQUIRED, HTTP_STATUS_CODE.BAD_REQUEST);
     }
 
     await this._sendOtpEmailUseCase.execute({ email });
-    res.status(200).json({ message: 'OTP sent successfully' });
+    res.status(HTTP_STATUS_CODE.OK).json({ message: SUCCESS_MESSAGES.OTP_SENT });
   }
 
   async verifyOtp(req: Request, res: Response): Promise<void> {
     const { email, otp } = req.body;
     if (!email.trim() || !otp.trim()) {
-      throw new CustomError('Email and OTP are required', 400);
+      throw new CustomError(ERROR_MESSAGES.EMAIL_AND_OTP_REQUIRED, HTTP_STATUS_CODE.BAD_REQUEST);
     }
     const response = await this._verifyOtpUseCase.execute({ email, otp });
 
     if (response.verified) {
-      res.status(200).json({ success: true, message: 'OTP verified successfully' });
+      res.status(HTTP_STATUS_CODE.OK).json({ success: true, message: SUCCESS_MESSAGES.OTP_VERIFIED });
     } else {
-      throw new CustomError('Invalid OTP', 400);
+      throw new CustomError(ERROR_MESSAGES.INVALID_OTP, HTTP_STATUS_CODE.BAD_REQUEST);
     }
   }
 
@@ -63,9 +64,9 @@ export class AuthController implements IAuthController {
 
     await this._registerUserUseCase.execute(validatedData);
 
-    res.status(201).json({
+    res.status(HTTP_STATUS_CODE.CREATED).json({
       success: true,
-      message: 'User registered successfully',
+      message: SUCCESS_MESSAGES.USER_REGISTERED,
     });
   }
 
@@ -105,9 +106,9 @@ export class AuthController implements IAuthController {
       email: user.email,
     }
 
-    res.status(200).json({
+    res.status(HTTP_STATUS_CODE.OK).json({
       success: true,
-      message: 'User logged in successfully',
+      message: SUCCESS_MESSAGES.USER_LOGGED_IN,
       data: dataToSend,
     });
   }
@@ -118,7 +119,7 @@ export class AuthController implements IAuthController {
     if (!refreshToken) {
       ClearAccessTokenCookie(res);
       ClearRefreshTokenCookie(res);
-      throw new CustomError('Refresh token missing', 401);
+      throw new CustomError(ERROR_MESSAGES.REFRESH_TOKEN_MISSING, HTTP_STATUS_CODE.UNAUTHORIZED);
     }
 
     const decoded = verifyJwtToken(
@@ -130,7 +131,7 @@ export class AuthController implements IAuthController {
     if (decoded === null) {
       ClearAccessTokenCookie(res);
       ClearRefreshTokenCookie(res);
-      throw new CustomError('Invalid refresh token', 401)
+      throw new CustomError(ERROR_MESSAGES.INVALID_REFRESH_TOKEN, HTTP_STATUS_CODE.UNAUTHORIZED)
     }
 
     const newAccessToken = generateJwtToken(
@@ -160,9 +161,9 @@ export class AuthController implements IAuthController {
     SaveAccessTokenInCookie(res, newAccessToken);
     SaveRefreshTokenInCookie(res, newRefreshToken);
 
-    res.status(200).json({
+    res.status(HTTP_STATUS_CODE.OK).json({
       success: true,
-      message: 'Token refreshed successfully',
+      message: SUCCESS_MESSAGES.TOKEN_REFRESHED,
     });
   }
 
@@ -170,9 +171,9 @@ export class AuthController implements IAuthController {
     ClearAccessTokenCookie(res);
     ClearRefreshTokenCookie(res);
 
-    res.status(200).json({
+    res.status(HTTP_STATUS_CODE.OK).json({
       success: true,
-      message: 'User logged out successfully',
+      message: SUCCESS_MESSAGES.USER_LOGGED_OUT,
     });
   }
 }

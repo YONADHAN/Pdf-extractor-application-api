@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import type { IPdfRepository } from '../../../domain/repositories/pdf_repository.interface.js';
 
-import { HTTP_STATUS } from '../../../shared/types/constants/constants.js';
+import { ERROR_MESSAGES, HTTP_STATUS_CODE } from '../../../shared/types/constants/constants.js';
 
 import { CustomError } from '../../../shared/error/customErrorHandler.js';
 import type { IViewSinglePdfUseCase } from '../../../domain/usecases/pdf/view_single_pdf_usecase_interface.js';
@@ -30,7 +30,7 @@ export class ViewSinglePdfUseCase implements IViewSinglePdfUseCase {
     });
 
     if (!pdf) {
-      throw new CustomError('PDF not found', HTTP_STATUS.NOT_FOUND);
+      throw new CustomError(ERROR_MESSAGES.PDF_NOT_FOUND, HTTP_STATUS_CODE.NOT_FOUND);
     }
 
     return mapViewSinglePdfResponse(pdf);

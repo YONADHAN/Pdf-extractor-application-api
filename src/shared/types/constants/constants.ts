@@ -1,6 +1,6 @@
 export const APP_NAME = 'PDF-UP';
 
-export const HTTP_STATUS = {
+export const HTTP_STATUS_CODE = {
   OK: 200,
   CREATED: 201,
   ACCEPTED: 202,
@@ -31,6 +31,10 @@ export const SUCCESS_MESSAGES = {
   USER_LOGGED_IN: 'User logged in successfully',
   TOKEN_REFRESHED: 'Token refreshed successfully',
   USER_LOGGED_OUT: 'User logged out successfully',
+  PDF_UPLOADED: 'PDF uploaded successfully',
+  PDF_GENERATED: 'PDF generated successfully',
+  PDF_DELETED: 'PDF deleted successfully',
+  DOCUMENT_FETCHED: 'Successfully fetched document',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -50,6 +54,20 @@ export const ERROR_MESSAGES = {
   ACCESS_TOKEN_NOT_FOUND: 'Access token is not found.',
   INVALID_ACCESS_TOKEN: 'Invalid access token.',
   CLOUDINARY_UPLOAD_FAILED: 'Cloudinary upload failure',
+  REFRESH_TOKEN_MISSING: 'Refresh token missing',
+  INVALID_REFRESH_TOKEN: 'Invalid refresh token',
+  NO_PDF_UPLOADED: 'No PDF uploaded',
+  UNAUTHORIZED: 'Unauthorized',
+  INVALID_STORED_FILE_NAME: 'Invalid stored file name',
+  PAGES_ARRAY_REQUIRED: 'Pages array required',
+  INVALID_PAGE_NUMBERS: 'Invalid page numbers',
+  INVALID_PDF_TYPE: 'Invalid pdf type',
+  STORED_FILE_NAME_REQUIRED: 'Stored file name required',
+  PDF_NOT_FOUND: 'PDF not found',
+  PARENT_PDF_ID_MISSING: 'Parent PDF id missing',
+  PDF_ID_MISSING: 'PDF id missing',
+  INVALID_PAGE_SELECTED: 'Invalid page selected',
+  FAILED_TO_SEND_OTP_EMAIL: 'Failed to send OTP email',
 } as const;
 
 export const CounterRepositoryKey = {

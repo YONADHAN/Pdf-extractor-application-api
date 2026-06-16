@@ -4,7 +4,7 @@ import { CustomError } from '../../../shared/error/customErrorHandler.js';
 
 import {
   ERROR_MESSAGES,
-  HTTP_STATUS,
+  HTTP_STATUS_CODE,
 } from '../../../shared/types/constants/constants.js';
 
 import type { IOtpRepository } from '../../../domain/repositories/otp_repository.iterface.js';
@@ -37,7 +37,7 @@ export class VerifyOtpUseCase
     if (!otp.trim() || !email.trim()) {
       throw new CustomError(
         ERROR_MESSAGES.CREDENTIALS_NOT_SEND,
-        HTTP_STATUS.BAD_REQUEST,
+        HTTP_STATUS_CODE.BAD_REQUEST,
       );
     }
 
@@ -47,7 +47,7 @@ export class VerifyOtpUseCase
     if (!latestOtp) {
       throw new CustomError(
         ERROR_MESSAGES.OTP_ABSENT,
-        HTTP_STATUS.NOT_FOUND,
+        HTTP_STATUS_CODE.NOT_FOUND,
       );
     }
 
@@ -60,14 +60,14 @@ export class VerifyOtpUseCase
     if (now > expiresAt) {
       throw new CustomError(
         ERROR_MESSAGES.OTP_EXPIRED,
-        HTTP_STATUS.GONE,
+        HTTP_STATUS_CODE.GONE,
       );
     }
 
     if (latestOtp.otp !== otp) {
       throw new CustomError(
         ERROR_MESSAGES.OTP_NOT_MATCH,
-        HTTP_STATUS.CONFLICT,
+        HTTP_STATUS_CODE.CONFLICT,
       );
     }
 

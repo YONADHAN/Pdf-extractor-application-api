@@ -5,7 +5,7 @@ import { CustomError } from '../../../shared/error/customErrorHandler.js';
 import {
   CounterRepositoryKey,
   ERROR_MESSAGES,
-  HTTP_STATUS,
+  HTTP_STATUS_CODE,
 } from '../../../shared/types/constants/constants.js';
 import type { IRegisterUserUseCase } from '../../../domain/usecases/auth/register_usecase_interface.js';
 import { hashPassword } from '../../../shared/utils/password_utils.js';
@@ -34,14 +34,14 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
     if (confirmPassword.trim() !== password.trim()) {
       throw new CustomError(
         ERROR_MESSAGES.PASSWORD_NOT_MATCH,
-        HTTP_STATUS.CONFLICT,
+        HTTP_STATUS_CODE.CONFLICT,
       );
     }
     const isExistingUser = await this._userRepository.findOne({ email :email.toLowerCase()});
     if (isExistingUser) {
       throw new CustomError(
         ERROR_MESSAGES.USER_ALREADY_EXISTS,
-        HTTP_STATUS.METHOD_NOT_ALLOWED,
+        HTTP_STATUS_CODE.METHOD_NOT_ALLOWED,
       );
     }
     const verifiedEmail =
@@ -52,7 +52,7 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
     if (!verifiedEmail) {
       throw new CustomError(
         ERROR_MESSAGES.EMAIL_NOT_VERIFIED,
-        HTTP_STATUS.UNAUTHORIZED,
+        HTTP_STATUS_CODE.UNAUTHORIZED,
       );
     }
     const passwordHash = await hashPassword(password);

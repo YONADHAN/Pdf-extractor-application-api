@@ -4,7 +4,7 @@ import type { IUserRepository } from '../../../domain/repositories/user_reposito
 import { CustomError } from '../../../shared/error/customErrorHandler.js';
 import {
   ERROR_MESSAGES,
-  HTTP_STATUS,
+  HTTP_STATUS_CODE,
 } from '../../../shared/types/constants/constants.js';
 import {
   comparePassword,
@@ -31,7 +31,7 @@ export class LoginUserUseCase implements ILoginUserUseCase {
     if (!user) {
       throw new CustomError(
         ERROR_MESSAGES.USER_NOT_FOUND,
-        HTTP_STATUS.NOT_FOUND,
+        HTTP_STATUS_CODE.NOT_FOUND,
       );
     }
     const isPasswordValid =
@@ -42,7 +42,7 @@ export class LoginUserUseCase implements ILoginUserUseCase {
     if (!isPasswordValid) {
       throw new CustomError(
         ERROR_MESSAGES.PASSWORD_IS_WRONG,
-        HTTP_STATUS.BAD_REQUEST,
+        HTTP_STATUS_CODE.BAD_REQUEST,
       );
     }
 

@@ -10,7 +10,7 @@ import type {
 } from '../../domain/services/cloudinary_file_storage_service.interface.js';
 import {
   ERROR_MESSAGES,
-  HTTP_STATUS,
+  HTTP_STATUS_CODE,
 } from '../../shared/types/constants/constants.js';
 import { CustomError } from '../../shared/error/customErrorHandler.js';
 
@@ -49,7 +49,7 @@ export class CloudinaryFileStorageService implements ICloudinaryFileStorageServi
             return reject(
               new CustomError(
                 ERROR_MESSAGES.CLOUDINARY_UPLOAD_FAILED,
-                HTTP_STATUS.INTERNAL_SERVER_ERROR,
+                HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR,
               ),
             );
           }

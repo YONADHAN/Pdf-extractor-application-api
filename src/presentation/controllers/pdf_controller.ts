@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { inject, injectable } from 'tsyringe';
-import { HTTP_STATUS } from '../../shared/types/constants/constants.js';
+import { ERROR_MESSAGES, HTTP_STATUS_CODE, SUCCESS_MESSAGES } from '../../shared/types/constants/constants.js';
 import { CustomError } from '../../shared/error/customErrorHandler.js';
 
 import type { IPdfController } from '../../domain/controller/pdf_controller_interface.js';
@@ -27,7 +27,7 @@ export class PdfController implements IPdfController {
   ) { }
 
   async me(req: Request, res: Response): Promise<void> {
-    res.status(200).json({
+    res.status(HTTP_STATUS_CODE.OK).json({
       "success": true,
       "user": req.user
     })
@@ -35,11 +35,11 @@ export class PdfController implements IPdfController {
 
   async uploadNewPdf(req: Request, res: Response): Promise<void> {
     if (!req.file) {
-      throw new CustomError('No PDF uploaded', HTTP_STATUS.BAD_REQUEST);
+      throw new CustomError(ERROR_MESSAGES.NO_PDF_UPLOADED, HTTP_STATUS_CODE.BAD_REQUEST);
     }
 
     if (!req.user?.userUUID) {
-      throw new CustomError('Unauthorized', HTTP_STATUS.UNAUTHORIZED);
+      throw new CustomError(ERROR_MESSAGES.UNAUTHORIZED, HTTP_STATUS_CODE.UNAUTHORIZED);
     }
 
     const response = await this._uploadNewPdfUseCase.execute({
@@ -48,9 +48,9 @@ export class PdfController implements IPdfController {
       userId: req.user.userId,
     });
 
-    res.status(HTTP_STATUS.CREATED).json({
+    res.status(HTTP_STATUS_CODE.CREATED).json({
       success: true,
-      message: 'PDF uploaded successfully',
+      message: SUCCESS_MESSAGES.PDF_UPLOADED,
       data: response,
     });
   }
@@ -60,13 +60,13 @@ export class PdfController implements IPdfController {
 
     if (!stored_file_name || typeof stored_file_name !== 'string') {
       throw new CustomError(
-        'Invalid stored file name',
-        HTTP_STATUS.BAD_REQUEST,
+        ERROR_MESSAGES.INVALID_STORED_FILE_NAME,
+        HTTP_STATUS_CODE.BAD_REQUEST,
       );
     }
 
     if (!Array.isArray(pages) || pages.length === 0) {
-      throw new CustomError('Pages array required', HTTP_STATUS.BAD_REQUEST);
+      throw new CustomError(ERROR_MESSAGES.PAGES_ARRAY_REQUIRED, HTTP_STATUS_CODE.BAD_REQUEST);
     }
 
     const invalidPages = pages.some(
@@ -74,7 +74,7 @@ export class PdfController implements IPdfController {
     );
 
     if (invalidPages) {
-      throw new CustomError('Invalid page numbers', HTTP_STATUS.BAD_REQUEST);
+      throw new CustomError(ERROR_MESSAGES.INVALID_PAGE_NUMBERS, HTTP_STATUS_CODE.BAD_REQUEST);
     }
 
     const response = await this._generateNewPdfUseCase.execute({
@@ -85,10 +85,10 @@ export class PdfController implements IPdfController {
       pages,
     });
 
-    res.status(HTTP_STATUS.CREATED).json({
+    res.status(HTTP_STATUS_CODE.CREATED).json({
       success: true,
 
-      message: 'PDF generated successfully',
+      message: SUCCESS_MESSAGES.PDF_GENERATED,
 
       data: response,
     });
@@ -106,7 +106,7 @@ export class PdfController implements IPdfController {
       type !== PdfDocumentType.ORIGINAL &&
       type !== PdfDocumentType.EXTRACTED
     ) {
-      throw new CustomError('Invalid pdf type', HTTP_STATUS.BAD_REQUEST);
+      throw new CustomError(ERROR_MESSAGES.INVALID_PDF_TYPE, HTTP_STATUS_CODE.BAD_REQUEST);
     }
 
     const userId = req.user.userId;
@@ -118,7 +118,7 @@ export class PdfController implements IPdfController {
       limit,
     });
 
-    res.status(200).json({
+    res.status(HTTP_STATUS_CODE.OK).json({
       success: true,
       data: result,
     });
@@ -129,8 +129,8 @@ export class PdfController implements IPdfController {
 
     if (!stored_file_name || typeof stored_file_name !== 'string') {
       throw new CustomError(
-        'Stored file name required',
-        HTTP_STATUS.BAD_REQUEST,
+        ERROR_MESSAGES.STORED_FILE_NAME_REQUIRED,
+        HTTP_STATUS_CODE.BAD_REQUEST,
       );
     }
 
@@ -140,10 +140,10 @@ export class PdfController implements IPdfController {
       stored_file_name,
     });
 
-    res.status(HTTP_STATUS.OK).json({
+    res.status(HTTP_STATUS_CODE.OK).json({
       success: true,
 
-      message: 'PDF deleted successfully',
+      message: SUCCESS_MESSAGES.PDF_DELETED,
     });
   }
 
@@ -152,8 +152,8 @@ export class PdfController implements IPdfController {
 
     if (!stored_file_name || typeof stored_file_name !== 'string') {
       throw new CustomError(
-        'Stored file name required',
-        HTTP_STATUS.BAD_REQUEST,
+        ERROR_MESSAGES.STORED_FILE_NAME_REQUIRED,
+        HTTP_STATUS_CODE.BAD_REQUEST,
       );
     }
 
@@ -163,10 +163,10 @@ export class PdfController implements IPdfController {
       stored_file_name,
     });
 
-    res.status(HTTP_STATUS.OK).json({
+    res.status(HTTP_STATUS_CODE.OK).json({
       success: true,
 
-      message: 'Successfully fetched document',
+      message: SUCCESS_MESSAGES.DOCUMENT_FETCHED,
 
       data: pdf,
     });

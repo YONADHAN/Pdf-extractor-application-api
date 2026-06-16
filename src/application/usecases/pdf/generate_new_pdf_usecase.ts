@@ -8,7 +8,8 @@ import { PdfDocumentType } from '../../../shared/types/constants/enum.js';
 
 import {
   CounterRepositoryKey,
-  HTTP_STATUS,
+  ERROR_MESSAGES,
+  HTTP_STATUS_CODE,
 } from '../../../shared/types/constants/constants.js';
 
 import { CustomError } from '../../../shared/error/customErrorHandler.js';
@@ -48,7 +49,7 @@ export class GenerateNewPdfUseCase implements IGenerateNewPdfUseCase {
     });
 
     if (!existingPdf) {
-      throw new CustomError('PDF not found', HTTP_STATUS.NOT_FOUND);
+      throw new CustomError(ERROR_MESSAGES.PDF_NOT_FOUND, HTTP_STATUS_CODE.NOT_FOUND);
     }
 
     const response = await axios.get(existingPdf.url, {
@@ -64,7 +65,7 @@ export class GenerateNewPdfUseCase implements IGenerateNewPdfUseCase {
     const invalidPages = pages.some((page) => page > totalPages || page <= 0);
 
     if (invalidPages) {
-      throw new CustomError('Invalid page selected', HTTP_STATUS.BAD_REQUEST);
+      throw new CustomError(ERROR_MESSAGES.INVALID_PAGE_SELECTED, HTTP_STATUS_CODE.BAD_REQUEST);
     }
 
     const newPdf = await PDFDocument.create();
@@ -93,8 +94,8 @@ export class GenerateNewPdfUseCase implements IGenerateNewPdfUseCase {
 
     if (!existingPdf._id) {
       throw new CustomError(
-        'Parent PDF id missing',
-        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        ERROR_MESSAGES.PARENT_PDF_ID_MISSING,
+        HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR,
       );
     }
 

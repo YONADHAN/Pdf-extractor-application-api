@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import {
-  HTTP_STATUS,
+  HTTP_STATUS_CODE,
   ERROR_MESSAGES,
 } from '../../../shared/types/constants/constants.js';
 
@@ -23,7 +23,7 @@ export class SendOtpEmailUseCase implements ISendOtpEmailUseCase {
     if (!email.trim()) {
       throw new CustomError(
         ERROR_MESSAGES.EMAIL_REQUIRED,
-        HTTP_STATUS.BAD_REQUEST,
+        HTTP_STATUS_CODE.BAD_REQUEST,
       );
     }
 
@@ -39,7 +39,7 @@ export class SendOtpEmailUseCase implements ISendOtpEmailUseCase {
       if (expiresAt > now) {
         throw new CustomError(
           ERROR_MESSAGES.OTP_ALREADY_SENT,
-          HTTP_STATUS.TOO_MANY_REQUESTS,
+          HTTP_STATUS_CODE.TOO_MANY_REQUESTS,
         );
       }
     }

@@ -7,7 +7,7 @@ import { GetAccessTokenFromCookie } from '../../shared/utils/cookie_helper.js';
 import { config } from '../../shared/config/env.validation.js';
 import {
   ERROR_MESSAGES,
-  HTTP_STATUS,
+  HTTP_STATUS_CODE,
 } from '../../shared/types/constants/constants.js';
 
 @injectable()
@@ -22,7 +22,7 @@ export class AuthMiddleware {
     if (!access_token) {
       throw new CustomError(
         ERROR_MESSAGES.ACCESS_TOKEN_NOT_FOUND,
-        HTTP_STATUS.UNAUTHORIZED,
+        HTTP_STATUS_CODE.UNAUTHORIZED,
       );
     }
 
@@ -34,7 +34,7 @@ export class AuthMiddleware {
     if (!decodedAccessToken) {
       throw new CustomError(
         ERROR_MESSAGES.INVALID_ACCESS_TOKEN,
-        HTTP_STATUS.FORBIDDEN,
+        HTTP_STATUS_CODE.FORBIDDEN,
       );
     }
 
