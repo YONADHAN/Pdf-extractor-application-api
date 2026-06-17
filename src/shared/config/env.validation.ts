@@ -21,7 +21,8 @@ const envSchema = z.object({
   COOKIE_SECRET: z.string().min(1),
   COOKIE_EXPIRES_IN: z.string().default('7d'),
   COOKIE_SECURE: z.coerce.boolean().default(false),
-  COOKIE_SAME_SITE: z.string().default('lax'),
+  //'boolean | "lax" | "strict" | "none" | undefined'
+  COOKIE_SAME_SITE: z.enum(["lax", "strict", "none"]).default('none'),
   COOKIE_HTTP_ONLY: z.coerce.boolean().default(true),
   COOKIE_PATH_ACCESS_TOKEN: z.string().default('/api/auth/login'),
   COOKIE_PATH_REFRESH_TOKEN: z.string().default('/api/auth/refresh-token'),
