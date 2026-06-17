@@ -25,12 +25,16 @@ const app = express();
 
 app.use(helmet());
 
+console.log("cors url productin => ", config.cors.corsFrontendUrlProd);
+
+console.log("cors url development => ", config.cors.corsFrontendUrlDev);
+
 app.use(
   cors({
 
     origin: [config.cors.corsFrontendUrlDev, config.cors.corsFrontendUrlProd],
 
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    // methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 
     credentials: true,
   }),
