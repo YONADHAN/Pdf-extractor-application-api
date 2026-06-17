@@ -1,10 +1,8 @@
 import 'dotenv/config';
 import 'reflect-metadata';
 
-// Validate env
 import './shared/config/env.validation.js';
 
-// Load DI container
 import './container/index.js';
 
 import { MongoConnect } from './infrastructure/database/mongo/mongoConnect.js';
@@ -15,11 +13,8 @@ async function startApp() {
   try {
     console.log('🔄 Starting application...');
 
-    // DB connection
     const mongoConnect = new MongoConnect();
     await mongoConnect.connectDB();
-
-    // Start server
     startServer();
 
     console.log('✅ Application started successfully');

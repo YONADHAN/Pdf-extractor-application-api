@@ -15,6 +15,7 @@ import { loggerMiddleware } from './presentation/middlewares/logger_middleware.j
 import { AuthRoute } from './presentation/routes/auth_route.js';
 
 import { PdfRoute } from './presentation/routes/pdf_route.js';
+import { config } from './shared/config/env.validation.js';
 
 const authRoute = new AuthRoute();
 
@@ -26,7 +27,8 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
+
+    origin: [config.cors.corsFrontendUrlDev, config.cors.corsFrontendUrlProd],
 
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 

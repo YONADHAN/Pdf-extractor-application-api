@@ -5,6 +5,8 @@ const envSchema = z.object({
   // Server
   PORT: z.coerce.number().default(3000),
   ENV: z.enum(['development', 'production', 'test']).default('development'),
+  CORS_FRONTEND_URL_PROD: z.string().min(1),
+  CORS_FRONTEND_URL_DEV: z.string().min(1),
 
   // DB
   MONGO_URI: z.string().min(1),
@@ -33,9 +35,6 @@ const envSchema = z.object({
   ERROR_LOG_DIR: z.string().default('logs/error'),
   ERROR_LOG_RETENTION_DAYS: z.coerce.number().default(30),
   ERROR_LOG_MAX_SIZE: z.string().default('10m'),
-
-  // CORS
-  CORS_FRONTEND_URL: z.string().min(1),
 
   //NODEMAILER
   NODEMAILER_EMAIL: z.string(),
@@ -97,7 +96,8 @@ export const config = {
     errorLogMaxSize: env.ERROR_LOG_MAX_SIZE,
   },
   cors: {
-    frontendUrl: env.CORS_FRONTEND_URL,
+    corsFrontendUrlProd: env.CORS_FRONTEND_URL_PROD,
+    corsFrontendUrlDev: env.CORS_FRONTEND_URL_DEV,
   },
   nodemailer: {
     email: env.NODEMAILER_EMAIL,
