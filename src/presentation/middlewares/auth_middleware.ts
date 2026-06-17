@@ -19,6 +19,8 @@ export class AuthMiddleware {
   ): Promise<void> {
     const access_token = GetAccessTokenFromCookie(req);
 
+    console.log("access_token", access_token)
+
     if (!access_token) {
       throw new CustomError(
         ERROR_MESSAGES.ACCESS_TOKEN_NOT_FOUND,
@@ -30,6 +32,9 @@ export class AuthMiddleware {
       access_token,
       config.jwt.accessTokenSecret,
     );
+
+
+    console.log("decodedAccessToken", decodedAccessToken)
 
     if (!decodedAccessToken) {
       throw new CustomError(
